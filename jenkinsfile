@@ -19,12 +19,14 @@ pipeline{
                         sh'''
                             pwd
                             cd ./APP
+                            pwd
                             '''
                         sh "trivy fs . > trivy_fs_report.txt"
                     }
                 }
         stage("OWASP Dependency Check") {
             steps {
+                sh "pwd"
                 dependencyCheck additionalArguments: '--scan ./ --format XML ', odcInstallation: 'Dependency-Check11'
                 dependencyCheckPublisher pattern: '**/OWASP_DependencyCheck_report.xml'
             }
