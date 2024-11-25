@@ -11,7 +11,7 @@ pipline{
         }
         stage('Checkout ') {
             steps {
-                git branch: 'main', url: 'https://github.com/ShimaaELsaadi/Real-Time-DevSecOps-Pipeline-for-a-DotNet-Web-App/tree/main/APP'
+                git branch: 'main', url: 'https://github.com/ShimaaELsaadi/Real-Time-DevSecOps-Pipeline-for-a-DotNet-Web-App.git/tree/main/APP'
             }
         }
         stage("TRIVY File scan") {
