@@ -16,7 +16,10 @@ pipeline{
         }
         stage("TRIVY File scan") {
                     steps {
-                        
+                        sh'''
+                            pwd
+                            cd ./APP
+                            '''
                         sh "trivy fs . > trivy_fs_report.txt"
                     }
                 }
