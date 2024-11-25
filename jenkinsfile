@@ -11,11 +11,12 @@ pipeline{
         }
         stage('Checkout ') {
             steps {
-                git branch: 'main', url: 'https://github.com/ShimaaELsaadi/Real-Time-DevSecOps-Pipeline-for-a-DotNet-Web-App/tree/main/APP'
+                git branch: 'main', url: 'https://github.com/ShimaaELsaadi/Real-Time-DevSecOps-Pipeline-for-a-DotNet-Web-App'
             }
         }
         stage("TRIVY File scan") {
                     steps {
+                        
                         sh "trivy fs . > trivy_fs_report.txt"
                     }
                 }
