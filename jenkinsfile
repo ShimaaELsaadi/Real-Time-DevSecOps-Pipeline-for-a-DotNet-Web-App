@@ -1,0 +1,29 @@
+pipline{
+    agent any
+    tools{
+        jdk 'jdk17'   
+    }
+    stages {
+        stage('clean workspace') {
+            steps {
+               deleteDir() 
+            }
+        }
+        stage('Checkout ') {
+            steps {
+                git branch: 'main', url: 'https://github.com/ShimaaELsaadi/Real-Time-DevSecOps-Pipeline-for-a-DotNet-Web-App/tree/main/APP'
+            }
+        }
+        stage("TRIVY File scan") {
+                    steps {
+                        sh "trivy fs . > trivy_fs_report.txt"
+                    }
+                }
+        stage("OWASP Dependency Check") {
+            steps {
+                dependencyCheck additionalArguments: '--scan ./ --format XML ', odcInstallation: 'Dependency-Check11'
+                dependencyCheckPublisher pattern: '**/OWASP_DependencyCheck_report.xml'
+            }
+        }
+                
+}
