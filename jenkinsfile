@@ -6,7 +6,8 @@ pipeline {
     stages {
         stage('Clean Workspace') {
             steps {
-                deleteDir() 
+                deleteDir()
+
             }
         }
         stage('Checkout') {
@@ -21,13 +22,34 @@ pipeline {
                 }
             }
         }
-        stage("OWASP Dependency Check") {
+        stage('build') {
             steps {
-                dir('APP') {
-                    dependencyCheck additionalArguments: '--scan ./ --format XML', odcInstallation: 'Dependency-Check11'
-                    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-                }
+                sh '''
+                make clean
+                make run
+                '''
             }
         }
+        stage('Unit Test') {
+            steps {
+                sh " make test-report "
+            }
+        }
+        stage('Integration API Test') {
+            steps {
+                sh " make test-api "
+            }
+        }
+        
+
+//       stage("OWASP Dependency Check") {
+//            steps {
+//                dir('APP') {
+//                    dependencyCheck additionalArguments: '--scan ./ --format XML', odcInstallation: 'Dependency-Check11'
+//                    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+//                }
+//           }
+//        }
+    
     }
 }
