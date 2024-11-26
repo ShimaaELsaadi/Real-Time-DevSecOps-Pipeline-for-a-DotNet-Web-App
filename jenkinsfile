@@ -1,7 +1,9 @@
 pipeline {
     agent any
     tools {
-        jdk 'jdk17'   
+        jdk 'jdk17' 
+        nodejs 'NodeJS'  
+
     }
     stages {
         stage('Clean Workspace') {
@@ -17,9 +19,9 @@ pipeline {
         }
         stage("TRIVY File Scan") {
             steps {
-                dir('APP') {
+
                     sh "trivy fs . > trivy_fs_report.txt"
-                }
+                
             }
         }
         stage('build') {
@@ -32,12 +34,12 @@ pipeline {
         }
         stage('Unit Test') {
             steps {
-                sh " make test-report "
+                sh 'make test-report'
             }
         }
         stage('Integration API Test') {
             steps {
-                sh " make test-api "
+                sh 'make test-api'
             }
         }
         
